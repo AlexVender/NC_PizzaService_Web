@@ -1,0 +1,5 @@
+Menu box:<br>
+<a href="get_by_id.jsp">Get by ID</a><br>
+<a href="">Get all</a><br>
+<a href="">Change</a><br>
+<a href="">Delete</a>
