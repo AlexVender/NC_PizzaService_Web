@@ -2,7 +2,7 @@ package unc.group16.controller.managers.oracle;
 
 import org.junit.*;
 import unc.group16.controller.JDBC;
-import unc.group16.data.Drink;
+import unc.group16.data.entity.Drink;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
