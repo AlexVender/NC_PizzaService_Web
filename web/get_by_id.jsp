@@ -1,6 +1,6 @@
-<%@ page import="unc.group16.data.entity.*" %>
 <%@ page import="unc.group16.controller.interfaces.Manager" %>
-<%@ page import="unc.group16.controller.managers.oracle.*" %>
+<%@ page import="unc.group16.controller.managers.oracle.OracleOrdersManager" %>
+<%@ page import="unc.group16.data.entity.Order" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -24,18 +24,28 @@
             </form><br><br>
 
 <%
-//    Manager<Order> manager = new OracleOrdersManager();
-//    Order order = manager.read(1L);
+    Manager<Order> manager = new OracleOrdersManager();
+    String stringID = request.getParameter("id");
+    try {
+        Long id = Long.parseLong(stringID);
+
+        Order order = manager.read(Long.parseLong(stringID));
+        if (order != null) {
+%>
+            ID: <%=order.getId()%><br>
+            CLNTID: <%=order.getClientId()%><br>
+            OrderDate: <%=order.getOrderDate()%><br>
+            DeliveryDate: <%=order.getDeliveryDate()%><br>
+            DESCR: <%=order.getDescription()%><br>
+<%
+        }
+    } catch (Exception e) {
+
+    }
 
 
-//    System.out.println("ID: " + order2.getId());
-//    System.out.println("CLNTID: " + order2.getClientId());
-//    System.out.println("OrderDate: " + order2.getOrderDate());
-//    System.out.println("DeliveryDate: " + order2.getDeliveryDate());
-//    System.out.println("DESCR: " + order2.getDescription());
 %>
 
-            <%--<%=order == null%>--%>
 
         </div>
     </div>
