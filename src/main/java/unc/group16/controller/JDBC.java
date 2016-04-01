@@ -30,22 +30,40 @@ public class JDBC {
 
         Connection connection = null;
         try {
-            /*
-            Выставляем локаль, чтобы не выдавалась ошибка
-            ORA-00604: error occurred at recursive SQL level 1
-            ORA-12705: Cannot access NLS entity files or invalid environment specified
-             */
-            Locale.setDefault(new Locale("EN","US"));
+
+//            Выставляем локаль, чтобы не выдавалась ошибка
+//            ORA-00604: error occurred at recursive SQL level 1
+//            ORA-12705: Cannot access NLS entity files or invalid environment specified
+
+            Locale.setDefault(new Locale("EN", "US"));
             connection = DriverManager.getConnection(url, user, password);
         } catch (SQLException e) {
             log.error("Unable to connect");
+        }
+/*
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            log.fatal("PostgreSQL JDBC Driver not found", e);
+        }
+
+        Connection connection = null;
+
+        try {
+
+            connection = DriverManager.getConnection(
+                    "jdbc:postgresql://localhost:5432/postgres", "PIZZADB",
+                    "PIZZADB");
+
+        } catch (SQLException e) {
+            log.error("Unable to connect: Error" + e);
         }
 
         if (connection != null) {
             log.debug("Connected");
         } else {
             log.error("Unable to connect");
-        }
+        }*/
         return connection;
     }
 
@@ -371,7 +389,7 @@ public class JDBC {
                     } else {
                         data = rs.getObject(columnAnnotation.id());
                     }
-                    field.set(record, data);
+                    field.set(record,  data);
                 }
             }
 

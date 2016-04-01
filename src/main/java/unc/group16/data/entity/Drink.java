@@ -4,9 +4,8 @@ import unc.group16.data.annotations.Column;
 import unc.group16.data.annotations.Table;
 import unc.group16.data.interfaces.TableRecord;
 
-import java.math.BigDecimal;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 
 @XmlRootElement
@@ -19,7 +18,7 @@ public class Drink implements TableRecord {
     private Integer volume;
 
     @Column(id = 3, name = "PRICE")
-    private BigDecimal price;
+    private Integer price;
 
     @Column(id = 4, name = "TITLE")
     private String title;
@@ -29,14 +28,14 @@ public class Drink implements TableRecord {
 
     public Drink() {}
 
-    public Drink(Integer volume, BigDecimal price, String title, String description) {
+    public Drink(Integer volume, Integer price, String title, String description) {
         this.volume = volume;
         this.price = price;
         this.title = title;
         this.description = description;
     }
 
-    public Drink(Long id, Integer volume, BigDecimal price, String title, String description) {
+    public Drink(Long id, Integer volume, Integer price, String title, String description) {
         this(volume, price, title, description);
         this.id = id;
     }
@@ -62,12 +61,12 @@ public class Drink implements TableRecord {
         return this;
     }
 
-    public BigDecimal getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
     @XmlElement
-    public Drink setPrice(BigDecimal price) {
+    public Drink setPrice(Integer price) {
         this.price = price;
         return this;
     }

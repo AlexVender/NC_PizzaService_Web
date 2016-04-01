@@ -1,0 +1,1 @@
+\ir drinks_insert.sql

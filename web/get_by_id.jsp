@@ -1,4 +1,6 @@
+<%@ page import="unc.group16.data.entity.Drink" %>
 <%@ page import="unc.group16.controller.interfaces.Manager" %>
+<%@ page import="unc.group16.controller.managers.oracle.OracleDrinksManager" %>
 <%@ page import="unc.group16.controller.managers.oracle.OracleOrdersManager" %>
 <%@ page import="unc.group16.data.entity.Order" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -25,11 +27,11 @@
 
 <%
     Manager<Order> manager = new OracleOrdersManager();
-    String stringID = request.getParameter("id");
+//    String stringID = request.getParameter("id");
     try {
-        Long id = Long.parseLong(stringID);
+        Long id = Long.parseLong("1");
 
-        Order order = manager.read(Long.parseLong(stringID));
+        Order order = manager.read(Long.parseLong("1"));
         if (order != null) {
 %>
             ID: <%=order.getId()%><br>
@@ -40,12 +42,9 @@
 <%
         }
     } catch (Exception e) {
-
+    System.out.println("get_by_id failed" + e);
     }
-
-
 %>
-
 
         </div>
     </div>
