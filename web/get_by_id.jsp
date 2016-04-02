@@ -27,11 +27,11 @@
 
 <%
     Manager<Order> manager = new OracleOrdersManager();
-//    String stringID = request.getParameter("id");
+    String stringID = request.getParameter("id");
     try {
-        Long id = Long.parseLong("1");
+//        Long id = Long.parseLong(stringID);
 
-        Order order = manager.read(Long.parseLong("1"));
+        Order order = manager.read(Long.parseLong(stringID));
         if (order != null) {
 %>
             ID: <%=order.getId()%><br>
