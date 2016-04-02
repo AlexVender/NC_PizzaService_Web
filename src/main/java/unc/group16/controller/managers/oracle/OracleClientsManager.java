@@ -4,6 +4,7 @@ import unc.group16.controller.interfaces.AbstractDatabaseManager;
 import unc.group16.data.entity.Client;
 
 import javax.ejb.Stateless;
+import java.util.Arrays;
 
 @Stateless
 public class OracleClientsManager extends AbstractDatabaseManager<Client> {
@@ -13,6 +14,11 @@ public class OracleClientsManager extends AbstractDatabaseManager<Client> {
 
     public Client read(Long id) {
         return (Client) getJDBC().select(new Client().setId(id));
+    }
+
+    public Client[] read(Client client){
+        Object[] objects = getJDBC().selectAll(client);
+        return Arrays.copyOf(objects, objects.length, Client[].class);
     }
 
     public boolean update(Client client) {

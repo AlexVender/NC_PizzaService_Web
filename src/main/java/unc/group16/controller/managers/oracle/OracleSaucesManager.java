@@ -4,6 +4,7 @@ import unc.group16.controller.interfaces.AbstractDatabaseManager;
 import unc.group16.data.entity.Sauce;
 
 import javax.ejb.Stateless;
+import java.util.Arrays;
 
 @Stateless
 public class OracleSaucesManager extends AbstractDatabaseManager<Sauce> {
@@ -13,6 +14,11 @@ public class OracleSaucesManager extends AbstractDatabaseManager<Sauce> {
     
     public Sauce read(Long id) {
         return (Sauce) getJDBC().select(new Sauce().setId(id));
+    }
+
+    public Sauce[] read(Sauce sauce){
+        Object[] objects = getJDBC().selectAll(sauce);
+        return Arrays.copyOf(objects, objects.length, Sauce[].class);
     }
     
     public boolean update(Sauce sauce) {

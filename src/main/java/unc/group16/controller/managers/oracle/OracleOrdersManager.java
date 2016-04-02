@@ -4,6 +4,7 @@ import unc.group16.controller.interfaces.AbstractDatabaseManager;
 import unc.group16.data.entity.Order;
 
 import javax.ejb.Stateless;
+import java.util.Arrays;
 
 @Stateless
 public class OracleOrdersManager extends AbstractDatabaseManager<Order> {
@@ -13,6 +14,11 @@ public class OracleOrdersManager extends AbstractDatabaseManager<Order> {
     
     public Order read(Long id) {
         return (Order) getJDBC().select(new Order().setId(id));
+    }
+
+    public Order[] read(Order order){
+        Object[] objects = getJDBC().selectAll(order);
+        return Arrays.copyOf(objects, objects.length, Order[].class);
     }
     
     public boolean update(Order order) {

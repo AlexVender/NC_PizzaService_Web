@@ -187,11 +187,11 @@ public class JDBC {
         return null;
     }
 
-    public TableRecord[] selectAll(Class<? extends TableRecord> table) {
+    public TableRecord[] selectAll(TableRecord record) {
         TableRecord[] result = null;
 
         try (Connection connection = getConnection()) {
-            result = selectAll(table, connection);
+            result = selectAll(record, connection);
         } catch (SQLException e) {
             log.error("Selecting failed", e);
         }
@@ -199,13 +199,13 @@ public class JDBC {
         return result;
     }
 
-    public TableRecord[] selectAll(Class<? extends TableRecord> table, Connection con) {
-        Table tableInfo = table.getDeclaredAnnotation(Table.class);
+    public TableRecord[] selectAll(TableRecord record, Connection con) {
+        Table tableInfo = record.getClass().getDeclaredAnnotation(Table.class);
 
         String sql = "SELECT * FROM " + tableInfo.name();
 
         try ( PreparedStatement ps = con.prepareStatement(sql) ) {
-            TableRecord[] result = executePreparedQuery(table, ps);
+            TableRecord[] result = executePreparedQuery(record.getClass(), ps);
             log.debug("Selected successfully");
             return result;
 

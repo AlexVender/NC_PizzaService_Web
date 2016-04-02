@@ -1,8 +1,7 @@
 package unc.group16.controller.servlet;
 
-import unc.group16.controller.interfaces.AbstractDatabaseManager;
+import unc.group16.controller.managers.oracle.OracleDrinksManager;
 import unc.group16.data.entity.Drink;
-import unc.group16.data.interfaces.TableRecord;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,7 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,37 +30,9 @@ public class ExportServlet extends HttpServlet {
             messages.put("success", "Download started");
             String table = request.getParameter("table");
 
-            AbstractDatabaseManager abstractDatabaseManager = new AbstractDatabaseManager() {
-                @Override
-                public Long create(TableRecord tableRecord) {
-                    return null;
-                }
-
-                @Override
-                public TableRecord read(Long id) {
-                    return null;
-                }
-
-                @Override
-                public boolean update(TableRecord tableRecord) {
-                    return false;
-                }
-
-                @Override
-                public boolean delete(Long id) {
-                    return false;
-                }
-            };
-            Drink drink = new Drink(1,2,"3","4");
-            Drink[] drinkRecords = Arrays.copyOf(
-                    abstractDatabaseManager.getJDBC()
-                            .selectAll((Class<? extends TableRecord>)Class
-                                    .forName("unc.group16.data.entity." + table))
-                    ,abstractDatabaseManager.getJDBC()
-                            .selectAll((Class<? extends TableRecord>)Class
-                                    .forName("unc.group16.data.entity." + table))
-                            .length
-                    ,Drink[].class);
+            //Пока что сделано только для Drink, будет переделано.
+            OracleDrinksManager oracleDrinksManager = new OracleDrinksManager();
+            Drink[] drinkRecords = oracleDrinksManager.read(new Drink()) ;
             for(int i = 0; i < drinkRecords.length; i++){
                 System.out.println("ID: " + drinkRecords[i].getId());
                 System.out.println("Volume: " + drinkRecords[i].getVolume());

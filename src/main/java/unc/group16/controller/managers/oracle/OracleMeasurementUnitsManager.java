@@ -4,6 +4,7 @@ import unc.group16.controller.interfaces.AbstractDatabaseManager;
 import unc.group16.data.entity.MeasurementUnit;
 
 import javax.ejb.Stateless;
+import java.util.Arrays;
 
 @Stateless
 public class OracleMeasurementUnitsManager extends AbstractDatabaseManager<MeasurementUnit> {
@@ -14,7 +15,12 @@ public class OracleMeasurementUnitsManager extends AbstractDatabaseManager<Measu
     public MeasurementUnit read(Long id) {
         return (MeasurementUnit) getJDBC().select(new MeasurementUnit().setId(id));
     }
-    
+
+    public MeasurementUnit[] read(MeasurementUnit measurementUnit){
+        Object[] objects = getJDBC().selectAll(measurementUnit);
+        return Arrays.copyOf(objects, objects.length, MeasurementUnit[].class);
+    }
+
     public boolean update(MeasurementUnit measurementUnit) {
         return getJDBC().update(measurementUnit);
     }

@@ -4,6 +4,7 @@ import unc.group16.controller.interfaces.AbstractDatabaseManager;
 import unc.group16.data.entity.Ingredient;
 
 import javax.ejb.Stateless;
+import java.util.Arrays;
 
 @Stateless
 public class OracleIngredientsManager extends AbstractDatabaseManager<Ingredient> {
@@ -13,6 +14,11 @@ public class OracleIngredientsManager extends AbstractDatabaseManager<Ingredient
     
     public Ingredient read(Long id) {
         return (Ingredient) getJDBC().select(new Ingredient().setId(id));
+    }
+
+    public Ingredient[] read(Ingredient ingredient){
+        Object[] objects = getJDBC().selectAll(ingredient);
+        return Arrays.copyOf(objects, objects.length, Ingredient[].class);
     }
     
     public boolean update(Ingredient ingredient) {
