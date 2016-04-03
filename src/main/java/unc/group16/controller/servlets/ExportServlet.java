@@ -1,4 +1,4 @@
-package unc.group16.controller.servlet;
+package unc.group16.controller.servlets;
 
 import unc.group16.controller.managers.oracle.OracleDrinksManager;
 import unc.group16.data.entity.Drink;
@@ -32,7 +32,7 @@ public class ExportServlet extends HttpServlet {
 
             //Пока что сделано только для Drink, будет переделано.
             OracleDrinksManager oracleDrinksManager = new OracleDrinksManager();
-            Drink[] drinkRecords = oracleDrinksManager.read(new Drink()) ;
+            Drink[] drinkRecords = oracleDrinksManager.readAll() ;
             for(int i = 0; i < drinkRecords.length; i++){
                 System.out.println("ID: " + drinkRecords[i].getId());
                 System.out.println("Volume: " + drinkRecords[i].getVolume());

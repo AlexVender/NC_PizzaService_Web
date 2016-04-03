@@ -16,9 +16,8 @@ public class OracleSaucesManager extends AbstractDatabaseManager<Sauce> {
         return (Sauce) getJDBC().select(new Sauce().setId(id));
     }
 
-    public Sauce[] read(Sauce sauce){
-        Object[] objects = getJDBC().selectAll(sauce);
-        return Arrays.copyOf(objects, objects.length, Sauce[].class);
+    public Sauce[] readAll(){
+        return (Sauce[]) getJDBC().selectAll(Sauce.class);
     }
     
     public boolean update(Sauce sauce) {

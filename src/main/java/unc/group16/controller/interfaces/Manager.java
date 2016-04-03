@@ -8,7 +8,7 @@ import javax.ejb.Local;
 public interface Manager <T extends TableRecord> {
     Long create(T t);
     T read(Long id);
-    T[] read(T t);//Select all
+    T[] readAll();
     boolean update(T t);
     boolean delete(Long id);
 }

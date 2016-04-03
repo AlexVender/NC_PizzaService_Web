@@ -16,10 +16,9 @@ import java.util.Locale;
 public class JDBC {
     public static final Logger log = Logger.getLogger(JDBC.class);
 
-    private static String url = "jdbc:oracle:thin:@localhost:1521:XE";
-    private static String user = "PIZZADB";
-    private static String password = "PIZZADB";
-
+    private static final String url = "jdbc:oracle:thin:@localhost:1521:XE";
+    private static final String user = "PIZZADB";
+    private static final String password = "PIZZADB";
 
     public Connection getConnection() throws SQLException {
         try {
@@ -28,43 +27,16 @@ public class JDBC {
             log.fatal("Oracle JDBC Driver not found", e);
         }
 
-        Connection connection = null;
+        /* Выставляем локаль для устранения ошибки
+           ORA-00604: error occurred at recursive SQL level 1
+           ORA-12705: Cannot access NLS entity files or invalid environment specified */
+        Locale.setDefault(new Locale("EN", "US"));
         try {
-
-//            Выставляем локаль, чтобы не выдавалась ошибка
-//            ORA-00604: error occurred at recursive SQL level 1
-//            ORA-12705: Cannot access NLS entity files or invalid environment specified
-
-            Locale.setDefault(new Locale("EN", "US"));
-            connection = DriverManager.getConnection(url, user, password);
+            return DriverManager.getConnection(url, user, password);
         } catch (SQLException e) {
             log.error("Unable to connect");
+            throw e;
         }
-/*
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            log.fatal("PostgreSQL JDBC Driver not found", e);
-        }
-
-        Connection connection = null;
-
-        try {
-
-            connection = DriverManager.getConnection(
-                    "jdbc:postgresql://localhost:5432/postgres", "PIZZADB",
-                    "PIZZADB");
-
-        } catch (SQLException e) {
-            log.error("Unable to connect: Error" + e);
-        }
-
-        if (connection != null) {
-            log.debug("Connected");
-        } else {
-            log.error("Unable to connect");
-        }*/
-        return connection;
     }
 
 
@@ -187,11 +159,11 @@ public class JDBC {
         return null;
     }
 
-    public TableRecord[] selectAll(TableRecord record) {
+    public TableRecord[] selectAll(Class<? extends TableRecord> table) {
         TableRecord[] result = null;
 
         try (Connection connection = getConnection()) {
-            result = selectAll(record, connection);
+            result = selectAll(table, connection);
         } catch (SQLException e) {
             log.error("Selecting failed", e);
         }
@@ -199,13 +171,13 @@ public class JDBC {
         return result;
     }
 
-    public TableRecord[] selectAll(TableRecord record, Connection con) {
-        Table tableInfo = record.getClass().getDeclaredAnnotation(Table.class);
+    public TableRecord[] selectAll(Class<? extends TableRecord> table, Connection con) {
+        Table tableInfo = table.getDeclaredAnnotation(Table.class);
 
         String sql = "SELECT * FROM " + tableInfo.name();
 
         try ( PreparedStatement ps = con.prepareStatement(sql) ) {
-            TableRecord[] result = executePreparedQuery(record.getClass(), ps);
+            TableRecord[] result = executePreparedQuery(table, ps);
             log.debug("Selected successfully");
             return result;
 
