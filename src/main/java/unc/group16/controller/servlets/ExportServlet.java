@@ -1,5 +1,9 @@
 package unc.group16.controller.servlets;
 
+import unc.group16.controller.interfaces.AbstractDatabaseManager;
+import unc.group16.controller.managers.ManagerFactory.ClientsManagerCreator;
+import unc.group16.controller.managers.ManagerFactory.Creator;
+import unc.group16.controller.managers.ManagerFactory.DrinksManagerCreator;
 import unc.group16.controller.managers.oracle.OracleDrinksManager;
 import unc.group16.data.entity.Drink;
 
@@ -29,6 +33,14 @@ public class ExportServlet extends HttpServlet {
             request.setAttribute("messages", messages);
             messages.put("success", "Download started");
             String table = request.getParameter("table");
+
+            //Как и что тут делать?
+            Creator[] creators = {new DrinksManagerCreator(), new ClientsManagerCreator()};
+            for (Creator creator: creators){
+                //Создали
+                AbstractDatabaseManager<?> abstractDatabaseManager = creator.factoryMethod();
+            }
+
 
             //Пока что сделано только для Drink, будет переделано.
             OracleDrinksManager oracleDrinksManager = new OracleDrinksManager();

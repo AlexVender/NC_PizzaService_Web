@@ -16,7 +16,8 @@ public class OracleDrinksManager extends AbstractDatabaseManager<Drink> {
         return (Drink) getJDBC().select(new Drink().setId(id));
     }
     public Drink[] readAll(){
-        return (Drink[]) getJDBC().selectAll(Drink.class);
+        Object[] objects = getJDBC().selectAll(Drink.class);
+        return Arrays.copyOf(objects, objects.length, Drink[].class);
     }
 
     public boolean update(Drink drink) {
