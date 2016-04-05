@@ -16,8 +16,9 @@ public class OracleOrdersManager extends AbstractDatabaseManager<Order> {
         return (Order) getJDBC().select(new Order().setId(id));
     }
 
-    public Order[] readAll(){
-        return (Order[]) getJDBC().selectAll(Order.class);
+    public Order[] readAll() {
+        Object[] objects = getJDBC().selectAll(Order.class);
+        return Arrays.copyOf(objects, objects.length, Order[].class);
     }
     
     public boolean update(Order order) {

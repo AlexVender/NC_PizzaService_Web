@@ -16,8 +16,9 @@ public class OraclePizzasManager extends AbstractDatabaseManager<Pizza> {
         return (Pizza) getJDBC().select(new Pizza().setId(id));
     }
 
-    public Pizza[] readAll(){
-        return (Pizza[]) getJDBC().selectAll(Pizza.class);
+    public Pizza[] readAll() {
+        Object[] objects = getJDBC().selectAll(Pizza.class);
+        return Arrays.copyOf(objects, objects.length, Pizza[].class);
     }
     
     public boolean update(Pizza pizza) {

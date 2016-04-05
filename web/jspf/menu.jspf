@@ -1,9 +1,10 @@
 Menu:<br>
 <a href="index.jsp">Index</a><br>
+<a href="create.jsp">Create</a><br>
 <a href="read.jsp">Get by ID</a><br>
-<a href="">Get all</a><br>
-<a href="">Change</a><br>
-<a href="">Delete</a><br>
+<a href="getall.jsp">Get all</a><br>
+<a href="update.jsp">Update</a><br>
+<a href="delete.jsp">Delete</a><br>
 <br>
 <a href="">Import data</a><br>
 <a href="export.jsp">Export data</a><br>

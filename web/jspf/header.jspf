@@ -1,0 +1,19 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<%!
+    final String[] TABLE_NAMES = {
+            "Client", "Drink", "Ingredient", "MeasurementUnit", "Order", "Pizza", "Sauce"
+    };
+%>
+
+<html>
+<head>
+    <title>Pizza Service</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="wrap">
+    <div class="menu">
+        <%@ include file="menu.jspf" %>
+    </div>
+    <div class="content">

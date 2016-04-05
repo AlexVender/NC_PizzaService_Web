@@ -4,9 +4,6 @@
 <%@ page import="javax.persistence.Column" %>
 <%@ page import="java.lang.reflect.Field" %>
 <%@ page import="java.util.Objects" %>
-<%
-    final String ID_STR = request.getParameter("id");
-%>
 
 <%@ include file="jspf/header.jspf" %>
 <form method="get">
@@ -21,8 +18,6 @@
             }
         %>
     </select>
-    ID:
-    <input type="text" name="id" value="<%=ID_STR != null ? ID_STR : "" %>">
     <input type="submit" value="Query">
 </form><br><br>
 
@@ -30,25 +25,38 @@
     <%
         OracleManagerFactory factory = new OracleManagerFactory();
         try {
-            Long id = Long.parseLong(ID_STR);
-
             Manager manager = factory.getManager(request.getParameter("table"));
-            TableRecord record = manager.read(id);
-            if (record != null) {
-                Field[] fields = record.getClass().getDeclaredFields();
-                for (Field field : fields) {
-                    Column columnAnnotation = field.getDeclaredAnnotation(Column.class);
-                    field.setAccessible(true);
+            TableRecord records[] = manager.readAll();
+            if (records.length == 0) {
+                out.print("Table is empty");
+                throw new RuntimeException();
+            }
+            Field[] fields = records[0].getClass().getDeclaredFields();
+            for (Field field : fields) {
+                Column columnAnnotation = field.getDeclaredAnnotation(Column.class);
+                out.print("<td>");
+                out.print(columnAnnotation.name());
+                out.print("</td>");
+            }
+            out.print("</tr>");
 
-                    out.print("<tr><td>");
-                    out.print(columnAnnotation.name());
-                    out.print("</td><td>");
-                    out.print(field.get(record));
-                    out.print("<tr></tr>");
+            for (TableRecord record : records) {
+                if (record == null) {
+                    continue;
                 }
+                out.print("<tr>");
+                for (Field field : fields) {
+                    field.setAccessible(true);
+                    Object data = field.get(record);
+
+                    out.print("<td>");
+                    out.print((field.get(record) != null) ? field.get(record) : "");
+                    out.print("</td>");
+                }
+                out.print("</tr>");
             }
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     %>
 </table>

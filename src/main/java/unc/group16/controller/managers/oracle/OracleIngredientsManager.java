@@ -16,8 +16,9 @@ public class OracleIngredientsManager extends AbstractDatabaseManager<Ingredient
         return (Ingredient) getJDBC().select(new Ingredient().setId(id));
     }
 
-    public Ingredient[] readAll(){
-        return (Ingredient[]) getJDBC().selectAll(Ingredient.class);
+    public Ingredient[] readAll() {
+        Object[] objects = getJDBC().selectAll(Ingredient.class);
+        return Arrays.copyOf(objects, objects.length, Ingredient[].class);
     }
     
     public boolean update(Ingredient ingredient) {

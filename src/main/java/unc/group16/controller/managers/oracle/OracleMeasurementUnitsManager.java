@@ -16,8 +16,9 @@ public class OracleMeasurementUnitsManager extends AbstractDatabaseManager<Measu
         return (MeasurementUnit) getJDBC().select(new MeasurementUnit().setId(id));
     }
 
-    public MeasurementUnit[] readAll(){
-        return (MeasurementUnit[]) getJDBC().selectAll(MeasurementUnit.class);
+    public MeasurementUnit[] readAll() {
+        Object[] objects = getJDBC().selectAll(MeasurementUnit.class);
+        return Arrays.copyOf(objects, objects.length, MeasurementUnit[].class);
     }
 
     public boolean update(MeasurementUnit measurementUnit) {
