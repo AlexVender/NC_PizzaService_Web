@@ -1,26 +1,29 @@
 package unc.group16.data.entity;
 
-import unc.group16.data.annotations.Column;
-import unc.group16.data.annotations.Table;
+import unc.group16.data.interfaces.AbstractTableRecord;
 import unc.group16.data.interfaces.TableRecord;
 
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.math.BigDecimal;
 
 @XmlRootElement
-@Table(name = "SAUCES", columns = 4)
-public class Sauce implements TableRecord {
-    @Column(id = 1, name = "SC_ID", isKey = true)
+@Table(name = "sauces")
+public class Sauce extends AbstractTableRecord {
+    @Id
+    @Column(name = "SC_ID")
     private Long id;
 
-    @Column(id = 2, name = "PRICE")
+    @Column(name = "PRICE")
     private BigDecimal price;
 
-    @Column(id = 3, name = "TITLE")
+    @Column(name = "TITLE")
     private String title;
 
-    @Column(id = 4, name = "DESCRIPTION")
+    @Column(name = "DESCRIPTION")
     private String description;
 
     public Sauce() {}
@@ -42,7 +45,7 @@ public class Sauce implements TableRecord {
     }
 
     @XmlElement
-    public Sauce setId(Long id) {
+    public TableRecord setId(Long id) {
         this.id = id;
         return this;
     }

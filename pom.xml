@@ -25,7 +25,7 @@
     </build>
 
     <!--Создаем репозиторий Мавен, в который положим ojdbc6 -->
-   <!-- <repositories>
+   <repositories>
         <repository>
             <id>libraries</id>
             <releases>
@@ -37,15 +37,15 @@
             </snapshots>
             <url>file://${project.baseUri}libraries</url>
         </repository>
-    </repositories>-->
+    </repositories>
 
 
     <dependencies>
-        <!--dependency>
+        <dependency>
             <groupId>com.oracle</groupId>
             <artifactId>ojdbc6</artifactId>
             <version>11.2.0.4</version>
-        </dependency-->
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

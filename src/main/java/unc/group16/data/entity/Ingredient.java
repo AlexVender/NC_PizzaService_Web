@@ -1,23 +1,26 @@
 package unc.group16.data.entity;
 
-import unc.group16.data.annotations.Column;
-import unc.group16.data.annotations.Table;
+import unc.group16.data.interfaces.AbstractTableRecord;
 import unc.group16.data.interfaces.TableRecord;
 
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 
 @XmlRootElement
-@Table(name = "INGREDIENTS", columns = 3)
-public class Ingredient implements TableRecord {
-    @Column(id = 1, name = "INGRD_ID", isKey = true)
+@Table(name = "ingredients")
+public class Ingredient extends AbstractTableRecord {
+    @Id
+    @Column(name = "INGRD_ID")
     private Long id;
 
-    @Column(id = 2, name = "TITLE")
+    @Column(name = "TITLE")
     private String title;
 
-    @Column(id = 3, name = "DESCRIPTION")
+    @Column(name = "DESCRIPTION")
     private String description;
 
     public Ingredient() {}
@@ -38,7 +41,7 @@ public class Ingredient implements TableRecord {
     }
 
     @XmlElement
-    public Ingredient setId(Long id) {
+    public TableRecord setId(Long id) {
         this.id = id;
         return this;
     }

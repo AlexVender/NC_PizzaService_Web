@@ -1,30 +1,33 @@
 package unc.group16.data.entity;
 
-import unc.group16.data.annotations.Column;
-import unc.group16.data.annotations.Table;
+import unc.group16.data.interfaces.AbstractTableRecord;
 import unc.group16.data.interfaces.TableRecord;
 
-import java.math.BigDecimal;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import java.math.BigDecimal;
 
 
 @XmlRootElement
-@Table(name = "DRINKS", columns = 5)
-public class Drink implements TableRecord {
-    @Column(id = 1, name = "DRNK_ID", isKey = true)
+@Table(name = "drinks")
+public class Drink extends AbstractTableRecord {
+    @Id
+    @Column(name = "DRNK_ID")
     private Long id;
 
-    @Column(id = 2, name = "VOLUME")
+    @Column(name = "VOLUME")
     private Integer volume;
 
-    @Column(id = 3, name = "PRICE")
+    @Column(name = "PRICE")
     private BigDecimal price;
 
-    @Column(id = 4, name = "TITLE")
+    @Column(name = "TITLE")
     private String title;
 
-    @Column(id = 5, name = "DESCRIPTION")
+    @Column(name = "DESCRIPTION")
     private String description;
 
     public Drink() {}
@@ -47,7 +50,7 @@ public class Drink implements TableRecord {
     }
 
     @XmlElement
-    public Drink setId(Long id) {
+    public TableRecord setId(Long id) {
         this.id = id;
         return this;
     }

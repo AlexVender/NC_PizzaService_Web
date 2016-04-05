@@ -1,29 +1,32 @@
 package unc.group16.data.entity;
 
-import unc.group16.data.annotations.Column;
-import unc.group16.data.annotations.Table;
+import unc.group16.data.interfaces.AbstractTableRecord;
 import unc.group16.data.interfaces.TableRecord;
 
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
 
 @XmlRootElement
-@Table(name = "ORDERS", columns = 5)
-public class Order implements TableRecord {
-    @Column(id = 1, name = "ORD_ID", isKey = true)
+@Table(name = "orders")
+public class Order extends AbstractTableRecord {
+    @Id
+    @Column(name = "ORD_ID")
     private Long id;
 
-    @Column(id = 2, name = "CLNT_CLNT_ID")
+    @Column(name = "CLNT_CLNT_ID")
     private Long clientId;
 
-    @Column(id = 3, name = "ORDER_DATE")
+    @Column(name = "ORDER_DATE")
     private Date orderDate;
 
-    @Column(id = 4, name = "DELIVERY_DATE")
+    @Column(name = "DELIVERY_DATE")
     private Date deliveryDate;
 
-    @Column(id = 5, name = "DESCRIPTION")
+    @Column(name = "DESCRIPTION")
     private String description;
 
     public Order() {}
@@ -46,7 +49,7 @@ public class Order implements TableRecord {
     }
 
     @XmlElement
-    public Order setId(Long id) {
+    public TableRecord setId(Long id) {
         this.id = id;
         return this;
     }

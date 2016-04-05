@@ -1,25 +1,30 @@
 package unc.group16.data.entity;
 
-import unc.group16.data.annotations.Column;
-import unc.group16.data.annotations.Table;
+import unc.group16.data.interfaces.AbstractTableRecord;
 import unc.group16.data.interfaces.TableRecord;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-@Table(name = "CLIENTS", columns = 4)
-public class Client implements TableRecord {
-    @Column(id = 1, name = "CLNT_ID", isKey = true)
+@Entity
+@Table(name = "clients")
+public class Client extends AbstractTableRecord {
+    @Id
+    @Column(name = "CLNT_ID")
     private Long id;
 
-    @Column(id = 2, name = "NAME")
+    @Column(name = "NAME")
     private String name;
 
-    @Column(id = 3, name = "ADDRESS")
+    @Column(name = "ADDRESS")
     private String address;
 
-    @Column(id = 4, name = "PHONE_NUMBER")
+    @Column(name = "PHONE_NUMBER")
     private String phone;
 
     public Client() {}
@@ -41,7 +46,7 @@ public class Client implements TableRecord {
     }
 
     @XmlElement
-    public Client setId(Long id) {
+    public TableRecord setId(Long id) {
         this.id = id;
         return this;
     }

@@ -1,10 +1,11 @@
 package unc.group16.controller;
 
 import org.apache.log4j.Logger;
-import unc.group16.data.annotations.Column;
-import unc.group16.data.annotations.Table;
 import unc.group16.data.interfaces.TableRecord;
 
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.lang.reflect.Field;
 import java.sql.*;
 import java.util.ArrayList;
@@ -55,20 +56,22 @@ public class JDBC {
     public Long insert(TableRecord record, Connection con) {
         Table tableInfo = record.getClass().getDeclaredAnnotation(Table.class);
 
-        String sql = "INSERT INTO " + tableInfo.name() + " VALUES (null" + new String(new char[tableInfo.columns()-1]).replace("\0", ", ?") + ")";
+        String sql = "INSERT INTO " + tableInfo.name() + " VALUES (null" + new String(new char[record.getColumnsCnt()-1]).replace("\0", ", ?") + ")";
 
         try ( PreparedStatement ps = con.prepareStatement(sql, new int[] {1}) ) {
             Field[] fields = record.getClass().getDeclaredFields();
+            int i = 0;
             for (Field field : fields) {
                 Column columnAnnotation = field.getDeclaredAnnotation(Column.class);
-                if (columnAnnotation != null && !columnAnnotation.isKey()) {
+                boolean isKey = field.isAnnotationPresent(Id.class);
+                if (columnAnnotation != null && !isKey) {
                     try {
                         field.setAccessible(true);
                         Object data = field.get(record);
                         if (data instanceof Date) {
                             data = new Timestamp(((Date) data).getTime());
                         }
-                        ps.setObject(columnAnnotation.id() - 1, data);
+                        ps.setObject(++i, data);
                     } catch (IllegalAccessException e) {
                         log.error("Could not get access to field " + field.getName(), e);
                     }
@@ -122,7 +125,8 @@ public class JDBC {
         Field[] fields = record.getClass().getDeclaredFields();
         for (Field field : fields) {
             Column columnAnnotation = field.getDeclaredAnnotation(Column.class);
-            if (columnAnnotation != null && columnAnnotation.isKey()) {
+            boolean isKey = field.isAnnotationPresent(Id.class);
+            if (columnAnnotation != null && isKey) {
                 try {
                     field.setAccessible(true);
                     sql.append(columnAnnotation.name())
@@ -223,7 +227,8 @@ public class JDBC {
 
             try {
                 field.setAccessible(true);
-                if (!columnAnnotation.isKey()) {
+                boolean isKey = field.isAnnotationPresent(Id.class);
+                if (!isKey) {
                     if (field.get(record) == null) {
                         continue;
                     }
@@ -255,15 +260,16 @@ public class JDBC {
         sql.append(whereStatement);
 
         try (PreparedStatement ps = con.prepareStatement(sql.toString())) {
-            int i = 0;
+            int id = 0;
             for (Field field : fields) {
                 Column columnAnnotation = field.getDeclaredAnnotation(Column.class);
-                if (columnAnnotation != null && !columnAnnotation.isKey() && field.get(record) != null) {
-                    Object data = field.get(record);
+                boolean isKey = field.isAnnotationPresent(Id.class);
+                Object data = field.get(record);
+                if (!isKey && data != null) {
                     if (data instanceof Date) {
                         data = new Timestamp(((Date) data).getTime());
                     }
-                    ps.setObject(++i, data);
+                    ps.setObject(++id, data);
                 }
             }
             int rows = ps.executeUpdate();
@@ -305,7 +311,8 @@ public class JDBC {
         Field[] fields = record.getClass().getDeclaredFields();
         for (Field field : fields) {
             Column columnAnnotation = field.getDeclaredAnnotation(Column.class);
-            if (columnAnnotation != null && columnAnnotation.isKey()) {
+            boolean isKey = field.isAnnotationPresent(Id.class);
+            if (columnAnnotation != null && isKey) {
                 try {
                     field.setAccessible(true);
                     sql.append(columnAnnotation.name())
@@ -343,23 +350,23 @@ public class JDBC {
         while (rs.next()) {
             TableRecord record = table.newInstance();
 
+            int index = 0;
             for (Field field : fields) {
                 Column columnAnnotation = field.getDeclaredAnnotation(Column.class);
-
                 if (columnAnnotation != null) {
                     field.setAccessible(true);
-
+                    index++;
                     Object data;
                     if (field.getType() == Long.class) {
-                        data = rs.getLong(columnAnnotation.id());
+                        data = rs.getLong(index);
                     } else if (field.getType() == Integer.class) {
-                        data = rs.getInt(columnAnnotation.id());
+                        data = rs.getInt(index);
                     } else if (field.getType() == Double.class) {
-                        data = rs.getDouble(columnAnnotation.id());
+                        data = rs.getDouble(index);
                     } else if (field.getType() == Date.class) {
-                        data = new Date(rs.getTimestamp(columnAnnotation.id()).getTime());
+                        data = new Date(rs.getTimestamp(index).getTime());
                     } else {
-                        data = rs.getObject(columnAnnotation.id());
+                        data = rs.getObject(index);
                     }
                     field.set(record,  data);
                 }

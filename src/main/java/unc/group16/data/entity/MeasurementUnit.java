@@ -1,20 +1,23 @@
 package unc.group16.data.entity;
 
-import unc.group16.data.annotations.Column;
-import unc.group16.data.annotations.Table;
+import unc.group16.data.interfaces.AbstractTableRecord;
 import unc.group16.data.interfaces.TableRecord;
 
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 
 @XmlRootElement
-@Table(name = "MEASUREMENT_UNITS", columns = 2)
-public class MeasurementUnit implements TableRecord {
-    @Column(id = 1, name = "MSRU_ID", isKey = true)
+@Table(name = "measurement_units")
+public class MeasurementUnit extends AbstractTableRecord {
+    @Id
+    @Column(name = "MSRU_ID")
     private Long id;
 
-    @Column(id = 2, name = "TITLE")
+    @Column(name = "TITLE")
     private String title;
 
     public MeasurementUnit() {}
@@ -34,7 +37,7 @@ public class MeasurementUnit implements TableRecord {
     }
 
     @XmlElement
-    public MeasurementUnit setId(Long id) {
+    public TableRecord setId(Long id) {
         this.id = id;
         return this;
     }

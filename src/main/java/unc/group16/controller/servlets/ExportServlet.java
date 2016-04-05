@@ -1,9 +1,6 @@
 package unc.group16.controller.servlets;
 
 import unc.group16.controller.interfaces.AbstractDatabaseManager;
-import unc.group16.controller.managers.ManagerFactory.ClientsManagerCreator;
-import unc.group16.controller.managers.ManagerFactory.Creator;
-import unc.group16.controller.managers.ManagerFactory.DrinksManagerCreator;
 import unc.group16.controller.managers.oracle.OracleDrinksManager;
 import unc.group16.data.entity.Drink;
 
@@ -35,22 +32,22 @@ public class ExportServlet extends HttpServlet {
             String table = request.getParameter("table");
 
             //Как и что тут делать?
-            Creator[] creators = {new DrinksManagerCreator(), new ClientsManagerCreator()};
-            for (Creator creator: creators){
-                //Создали
-                AbstractDatabaseManager<?> abstractDatabaseManager = creator.factoryMethod();
-            }
+//            Creator[] creators = {new DrinksManagerCreator(), new ClientsManagerCreator()};
+//            for (Creator creator: creators){
+//                Создали
+//                AbstractDatabaseManager<?> abstractDatabaseManager = creator.factoryMethod();
+//            }
 
 
             //Пока что сделано только для Drink, будет переделано.
             OracleDrinksManager oracleDrinksManager = new OracleDrinksManager();
             Drink[] drinkRecords = oracleDrinksManager.readAll() ;
-            for(int i = 0; i < drinkRecords.length; i++){
-                System.out.println("ID: " + drinkRecords[i].getId());
-                System.out.println("Volume: " + drinkRecords[i].getVolume());
-                System.out.println("Price: " + drinkRecords[i].getPrice());
-                System.out.println("Title: " + drinkRecords[i].getTitle());
-                System.out.println("Description: " + drinkRecords[i].getDescription());
+            for (Drink drinkRecord : drinkRecords) {
+                System.out.println("ID: " + drinkRecord.getId());
+                System.out.println("Volume: " + drinkRecord.getVolume());
+                System.out.println("Price: " + drinkRecord.getPrice());
+                System.out.println("Title: " + drinkRecord.getTitle());
+                System.out.println("Description: " + drinkRecord.getDescription());
             }
             System.out.println(table);
         }
