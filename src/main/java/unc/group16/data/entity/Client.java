@@ -1,5 +1,6 @@
 package unc.group16.data.entity;
 
+import unc.group16.data.annotations.DisplayName;
 import unc.group16.data.interfaces.AbstractTableRecord;
 import unc.group16.data.interfaces.TableRecord;
 
@@ -16,15 +17,17 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Client extends AbstractTableRecord {
     @Id
     @Column(name = "CLNT_ID")
+    @DisplayName(name = "ID")
     private Long id;
 
-    @Column(name = "NAME")
+    @Column(name = "Name")
     private String name;
 
-    @Column(name = "ADDRESS")
+    @Column(name = "Address")
     private String address;
 
-    @Column(name = "PHONE_NUMBER")
+    @Column(name = "Phone_Number")
+    @DisplayName(name = "Phone")
     private String phone;
 
     public Client() {}

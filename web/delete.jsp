@@ -37,7 +37,7 @@
             </select>
             ID:
             <input type="text" name="id" value="<%=ID_STR != null ? ID_STR : "" %>">
-            <input type="submit" value="Query">
+            <input type="submit" value="Delete">
         </form><br>
 
             <%

@@ -1,9 +1,11 @@
 package unc.group16.data.entity;
 
+import unc.group16.data.annotations.DisplayName;
 import unc.group16.data.interfaces.AbstractTableRecord;
 import unc.group16.data.interfaces.TableRecord;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
@@ -11,25 +13,27 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.math.BigDecimal;
 
 @XmlRootElement
+@Entity
 @Table(name = "pizzas")
 public class Pizza extends AbstractTableRecord {
     @Id
     @Column(name = "PZ_ID")
+    @DisplayName(name = "ID")
     private Long id;
 
-    @Column(name = "TITLE")
+    @Column(name = "Title")
     private String title;
 
-    @Column(name = "TYPE")
+    @Column(name = "Type")
     private String type;
 
-    @Column(name = "WEIGHT")
+    @Column(name = "Weight")
     private Integer weight;
 
-    @Column(name = "PRICE")
+    @Column(name = "Price")
     private BigDecimal price;
 
-    @Column(name = "DESCRIPTION")
+    @Column(name = "Description")
     private String description;
 
     public Pizza() {}

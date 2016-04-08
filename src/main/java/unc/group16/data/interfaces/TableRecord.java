@@ -6,4 +6,5 @@ public interface TableRecord extends Cloneable {
 
     Integer getColumnsCnt();
     String getColumnName(Integer index);
+    String getDisplayColumnName(Integer index);
 }

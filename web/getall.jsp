@@ -1,7 +1,7 @@
 <%@ page import="unc.group16.controller.interfaces.Manager" %>
 <%@ page import="unc.group16.controller.managers.oracle.OracleManagerFactory" %>
+<%@ page import="unc.group16.data.annotations.DisplayName" %>
 <%@ page import="unc.group16.data.interfaces.TableRecord" %>
-<%@ page import="javax.persistence.Column" %>
 <%@ page import="java.lang.reflect.Field" %>
 <%@ page import="java.util.Objects" %>
 
@@ -11,15 +11,15 @@
         <%
             for (String TABLE_NAME : TABLE_NAMES) {
         %>
-        <option <%=Objects.equals(request.getParameter("table"), TABLE_NAME) ? "selected" : ""%>
-                value="<%=TABLE_NAME%>"><%=TABLE_NAME%>
+        <option<%=Objects.equals(request.getParameter("table"), TABLE_NAME) ? " selected" : ""%>>
+            <%=TABLE_NAME%>
         </option>
         <%
             }
         %>
     </select>
     <input type="submit" value="Query">
-</form><br><br>
+</form><br>
 
 <table>
     <%
@@ -27,19 +27,16 @@
         try {
             Manager manager = factory.getManager(request.getParameter("table"));
             TableRecord records[] = manager.readAll();
-            if (records.length == 0) {
+            if (records == null || records.length == 0) {
                 out.print("Table is empty");
                 throw new RuntimeException();
             }
-            Field[] fields = records[0].getClass().getDeclaredFields();
-            for (Field field : fields) {
-                Column columnAnnotation = field.getDeclaredAnnotation(Column.class);
-                out.print("<td>");
-                out.print(columnAnnotation.name());
-                out.print("</td>");
+            for (int i = 0; i < records[0].getColumnsCnt(); i++) {
+                out.print("<th>" + records[0].getDisplayColumnName(i) + "</th>");
             }
             out.print("</tr>");
 
+            Field[] fields = records[0].getClass().getDeclaredFields();
             for (TableRecord record : records) {
                 if (record == null) {
                     continue;
@@ -48,13 +45,11 @@
                 for (Field field : fields) {
                     field.setAccessible(true);
                     Object data = field.get(record);
-
-                    out.print("<td>");
-                    out.print((field.get(record) != null) ? field.get(record) : "");
-                    out.print("</td>");
+                    out.print("<td>" + ((data != null) ? data : "") + "</td>");
                 }
                 out.print("</tr>");
             }
+        } catch (NullPointerException e) {
         } catch (Exception e) {
             e.printStackTrace();
         }

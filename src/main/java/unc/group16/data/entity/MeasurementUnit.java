@@ -1,9 +1,11 @@
 package unc.group16.data.entity;
 
+import unc.group16.data.annotations.DisplayName;
 import unc.group16.data.interfaces.AbstractTableRecord;
 import unc.group16.data.interfaces.TableRecord;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
@@ -11,13 +13,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 
 @XmlRootElement
+@Entity
 @Table(name = "measurement_units")
 public class MeasurementUnit extends AbstractTableRecord {
     @Id
     @Column(name = "MSRU_ID")
+    @DisplayName(name = "ID")
     private Long id;
 
-    @Column(name = "TITLE")
+    @Column(name = "Title")
     private String title;
 
     public MeasurementUnit() {}

@@ -1,9 +1,11 @@
 package unc.group16.data.entity;
 
+import unc.group16.data.annotations.DisplayName;
 import unc.group16.data.interfaces.AbstractTableRecord;
 import unc.group16.data.interfaces.TableRecord;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
@@ -11,22 +13,27 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
 
 @XmlRootElement
+@Entity
 @Table(name = "orders")
 public class Order extends AbstractTableRecord {
     @Id
     @Column(name = "ORD_ID")
+    @DisplayName(name = "ID")
     private Long id;
 
     @Column(name = "CLNT_CLNT_ID")
+    @DisplayName(name = "Client")
     private Long clientId;
 
     @Column(name = "ORDER_DATE")
+    @DisplayName(name = "Order date")
     private Date orderDate;
 
     @Column(name = "DELIVERY_DATE")
+    @DisplayName(name = "Delivery date")
     private Date deliveryDate;
 
-    @Column(name = "DESCRIPTION")
+    @Column(name = "Description")
     private String description;
 
     public Order() {}
@@ -70,7 +77,7 @@ public class Order extends AbstractTableRecord {
 
     @XmlElement
     public Order setOrderDate(Date orderDate) {
-        this.orderDate = orderDate;
+        this.orderDate = (Date) orderDate.clone();
         return this;
     }
 
@@ -80,7 +87,7 @@ public class Order extends AbstractTableRecord {
 
     @XmlElement
     public Order setDeliveryDate(Date deliveryDate) {
-        this.deliveryDate = deliveryDate;
+        this.deliveryDate = (Date) deliveryDate.clone();
         return this;
     }
 

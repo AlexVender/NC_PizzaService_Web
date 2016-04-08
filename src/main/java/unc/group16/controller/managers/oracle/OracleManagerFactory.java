@@ -12,7 +12,8 @@ public class OracleManagerFactory {
             case "measurementunit": return new OracleMeasurementUnitsManager();
             case "order":           return new OracleOrdersManager();
             case "pizza":           return new OraclePizzasManager();
-            case "sause":           return new OracleSaucesManager();
+            case "sauce":           return new OracleSaucesManager();
+
             default:                throw new RuntimeException("No such manager: " + name);
         }
     }
