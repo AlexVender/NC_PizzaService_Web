@@ -1,15 +1,23 @@
 package unc.group16.controller.servlets;
 
-import unc.group16.controller.interfaces.AbstractDatabaseManager;
-import unc.group16.controller.managers.oracle.OracleDrinksManager;
+import unc.group16.controller.interfaces.Manager;
+import unc.group16.controller.managers.oracle.OracleManagerFactory;
+import unc.group16.controller.managers.xml.utils.EntitiesFactory;
+import unc.group16.controller.managers.xml.utils.XmlParser;
 import unc.group16.data.entity.Drink;
+import unc.group16.data.entity.entities.Drinks;
+import unc.group16.data.interfaces.TableRecord;
+import unc.group16.data.interfaces.TableRecords;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,27 +37,25 @@ public class ExportServlet extends HttpServlet {
         try{
             request.setAttribute("messages", messages);
             messages.put("success", "Download started");
-            String table = request.getParameter("table");
+            String name = request.getParameter("table");
+            String currentDir = System.getProperty("user.dir");
+            System.out.println("2:" + currentDir);
 
-            //Как и что тут делать?
-//            Creator[] creators = {new DrinksManagerCreator(), new ClientsManagerCreator()};
-//            for (Creator creator: creators){
-//                Создали
-//                AbstractDatabaseManager<?> abstractDatabaseManager = creator.factoryMethod();
+
+            OracleManagerFactory factory = new OracleManagerFactory();
+            Manager manager = factory.getManager(request.getParameter("table"));
+            EntitiesFactory entitiesFactory = new EntitiesFactory();
+            TableRecord[] selectedArr = manager.readAll();
+            TableRecords tableRecords = entitiesFactory.getManager(request.getParameter("table"), selectedArr);
+            XmlParser xmlParser = new XmlParser();
+            xmlParser.marshal(tableRecords);
+
+            //Тест
+            Drink[] drinkArray = Arrays.copyOf(selectedArr, selectedArr.length, Drink[].class);
+//            for (Drink drinktemp: drinkArray){
+//                System.out.println("Description: " + drinktemp.getDescription() +
+//                        ".Title: " + drinktemp.getTitle());
 //            }
-
-
-            //Пока что сделано только для Drink, будет переделано.
-            OracleDrinksManager oracleDrinksManager = new OracleDrinksManager();
-            Drink[] drinkRecords = oracleDrinksManager.readAll() ;
-            for (Drink drinkRecord : drinkRecords) {
-                System.out.println("ID: " + drinkRecord.getId());
-                System.out.println("Volume: " + drinkRecord.getVolume());
-                System.out.println("Price: " + drinkRecord.getPrice());
-                System.out.println("Title: " + drinkRecord.getTitle());
-                System.out.println("Description: " + drinkRecord.getDescription());
-            }
-            System.out.println(table);
         }
         catch (Exception e){
             messages.put("error","Error during downloading: " + e);
