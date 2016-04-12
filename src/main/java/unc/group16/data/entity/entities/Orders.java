@@ -24,7 +24,7 @@ public class Orders implements TableRecords
         return orders;
     }
 
-    @XmlElement
+    @XmlElement(name = "order")
     public void setOrders(Order[] orders) {
         this.orders = orders;
     }

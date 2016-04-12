@@ -24,7 +24,7 @@ public class Sauces implements TableRecords
         return sauces;
     }
 
-    @XmlElement
+    @XmlElement(name = "sauce")
     public void setSauces(Sauce[] sauces) {
         this.sauces = sauces;
     }

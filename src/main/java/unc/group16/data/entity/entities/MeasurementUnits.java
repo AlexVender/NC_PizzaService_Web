@@ -24,7 +24,7 @@ public class MeasurementUnits implements TableRecords
         return measurementUnits;
     }
 
-    @XmlElement
+    @XmlElement(name = "measurementUnit")
     public void setMeasurementUnits(MeasurementUnit[] measurementUnits) {
         this.measurementUnits = measurementUnits;
     }

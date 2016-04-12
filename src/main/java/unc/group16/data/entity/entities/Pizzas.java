@@ -24,7 +24,7 @@ public class Pizzas implements TableRecords
         return pizzas;
     }
 
-    @XmlElement
+    @XmlElement(name = "pizza")
     public void setPizzas(Pizza[] pizzas) {
         this.pizzas = pizzas;
     }

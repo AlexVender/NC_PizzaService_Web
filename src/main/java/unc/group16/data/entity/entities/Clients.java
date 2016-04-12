@@ -23,7 +23,7 @@ public class Clients implements TableRecords {
         return clients;
     }
 
-    @XmlElement
+    @XmlElement(name = "client")
     public void setClients(Client[] clients) {
         this.clients = clients;
     }
