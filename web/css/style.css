@@ -1,14 +1,13 @@
 .wrap {
     width: 900px;
-
     margin: 30px auto;
     clear: left;
 }
 .menu {
-    /*width: 150px;*/
     min-width: 150px;
     padding: 5px 10px;
     float: left;
+    text-align: center;
 }
 .content {
     background: #F7F7F7;
@@ -16,24 +15,23 @@
     padding: 10px;
     overflow: hidden;
     border-radius: 10px;
+
+   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-table {
+table.result {
     border-collapse: collapse;
     border: 1px solid #AAAAAA;
     background: #FCFCFC;
-
 }
-
-th, td {
+table.result td,
+table.result th {
     border: 1px solid #AAAAAA;
     padding: 3px;
 }
-
-tr:hover {
-    background: #F7F7F7;
+table.result tr:hover {
+    background: #fffaf5;
 }
-
 
 a {
     text-decoration: none;

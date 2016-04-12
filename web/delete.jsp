@@ -24,35 +24,43 @@
     </div>
     <div class="content">
         <form method="get">
-            <select name="table">
-                <%
-                    for (String TABLE_NAME : TABLE_NAMES) {
-                %>
-                <option <%=Objects.equals(request.getParameter("table"), TABLE_NAME) ? "selected" : ""%>
-                        value="<%=TABLE_NAME%>"><%=TABLE_NAME%>
-                </option>
-                <%
-                    }
-                %>
-            </select>
-            ID:
-            <input type="text" name="id" value="<%=ID_STR != null ? ID_STR : "" %>">
+            <table>
+                <tr>
+                    <td>Table</td>
+                    <td>
+                        <select name="table">
+                            <option selected value=""> -- Select -- </option>
+                            <%
+                                for (String TABLE_NAME : TABLE_NAMES) {
+                            %>
+                            <option <%=Objects.equals(request.getParameter("table"), TABLE_NAME) ? "selected" : ""%>>
+                                <%=TABLE_NAME%>
+                            </option>
+                            <%
+                                }
+                            %>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>ID</td>
+                    <td><input type="text" name="id" value="<%=ID_STR != null ? ID_STR : "" %>"></td>
+                </tr>
+            </table>
             <input type="submit" value="Delete">
-        </form><br>
+        </form>
 
             <%
                 OracleManagerFactory factory = new OracleManagerFactory();
                 try {
                     Long id = Long.parseLong(ID_STR);
-
                     Manager manager = factory.getManager(request.getParameter("table"));
                     if (manager.delete(id)) {
-                        out.print("Successfuly deleated");
+                        out.print("Successfully deleted");
                     } else {
                         out.print("Record not found");
                     }
                 } catch (Exception e) {
-                    out.print("<br>");
                 }
             %>
     </div>
