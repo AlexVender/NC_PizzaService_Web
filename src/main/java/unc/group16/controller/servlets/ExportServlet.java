@@ -4,8 +4,6 @@ import unc.group16.controller.interfaces.Manager;
 import unc.group16.controller.managers.oracle.OracleManagerFactory;
 import unc.group16.controller.managers.xml.utils.EntitiesFactory;
 import unc.group16.controller.managers.xml.utils.XmlParser;
-import unc.group16.data.entity.Drink;
-import unc.group16.data.entity.entities.Drinks;
 import unc.group16.data.interfaces.TableRecord;
 import unc.group16.data.interfaces.TableRecords;
 
@@ -14,13 +12,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Arrays;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
-
 @WebServlet("/export")
 public class ExportServlet extends HttpServlet {
     @Override
@@ -31,15 +25,14 @@ public class ExportServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Postprocess request: gather and validate submitted data and display the result in the same JSP.
+
+        response.setContentType("application/octet-stream");
+
 
         Map<String, String> messages = new HashMap<>();
         try{
             request.setAttribute("messages", messages);
             messages.put("success", "Download started");
-            String name = request.getParameter("table");
-            String currentDir = System.getProperty("user.dir");
-            System.out.println("2:" + currentDir);
 
 
             OracleManagerFactory factory = new OracleManagerFactory();
@@ -48,22 +41,25 @@ public class ExportServlet extends HttpServlet {
             TableRecord[] selectedArr = manager.readAll();
             TableRecords tableRecords = entitiesFactory.getManager(request.getParameter("table"), selectedArr);
             XmlParser xmlParser = new XmlParser();
-            xmlParser.marshal(tableRecords);
+            File file = xmlParser.marshal(tableRecords);
 
-            //Тест
-            Drink[] drinkArray = Arrays.copyOf(selectedArr, selectedArr.length, Drink[].class);
-//            for (Drink drinktemp: drinkArray){
-//                System.out.println("Description: " + drinktemp.getDescription() +
-//                        ".Title: " + drinktemp.getTitle());
-//            }
+            response.setHeader("Content-Disposition","inline; filename=\"" + file.getName() + "\"");
+
+            FileInputStream fileInputStream = new FileInputStream(file.getPath());
+            PrintWriter out = response.getWriter();
+            int i;
+            while ((i = fileInputStream.read()) != -1) {
+                out.write(i);
+            }
+            fileInputStream.close();
+            out.close();
+
         }
         catch (Exception e){
             messages.put("error","Error during downloading: " + e);
         }
 
 
-        request.getRequestDispatcher("/export.jsp").forward(request, response);
+        //request.getRequestDispatcher("/export.jsp").forward(request, response);
     }
-
-
 }

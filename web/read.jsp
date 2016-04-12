@@ -4,7 +4,6 @@
 <%@ page import="unc.group16.data.interfaces.TableRecord" %>
 <%@ page import="java.lang.reflect.Field" %>
 <%@ page import="java.util.Objects" %>
-<%@ page import="java.io.File" %>
 <%
     final String ID_STR = request.getParameter("id");
 %>
@@ -29,13 +28,6 @@
 
 <table>
     <%
-
-        String currentDir = new File("").getAbsolutePath();
-
-        System.out.println("4:" + currentDir);
-        String currentDir2 = System.getProperty("user.dir");
-
-        System.out.println("3:" + currentDir2);
         OracleManagerFactory factory = new OracleManagerFactory();
         try {
             Long id = Long.parseLong(ID_STR);

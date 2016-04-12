@@ -6,7 +6,6 @@ import unc.group16.data.interfaces.TableRecords;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 import java.util.Arrays;
 
 @XmlRootElement
