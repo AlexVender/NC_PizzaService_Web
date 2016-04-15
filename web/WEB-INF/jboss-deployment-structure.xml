@@ -9,6 +9,7 @@ and open the template in the editor.
     <deployment>
         <dependencies>
             <module name="com.oracle" />
+            <module name="org.apache.commons.fileupload" />
         </dependencies>
     </deployment>
 </jboss-deployment-structure>

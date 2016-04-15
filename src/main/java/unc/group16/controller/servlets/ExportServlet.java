@@ -4,6 +4,7 @@ import unc.group16.controller.interfaces.Manager;
 import unc.group16.controller.managers.oracle.OracleManagerFactory;
 import unc.group16.controller.managers.xml.utils.EntitiesFactory;
 import unc.group16.controller.managers.xml.utils.XmlParser;
+import unc.group16.data.entity.entities.Entities;
 import unc.group16.data.interfaces.TableRecord;
 import unc.group16.data.interfaces.TableRecords;
 
@@ -18,12 +19,6 @@ import java.util.Map;
 @WebServlet("/export")
 public class ExportServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Preprocess request: we actually don't need to do any business stuff, so just display JSP.
-        request.getRequestDispatcher("/export.jsp").forward(request, response);
-    }
-
-    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         response.setContentType("application/octet-stream");
@@ -32,8 +27,13 @@ public class ExportServlet extends HttpServlet {
         Map<String, String> messages = new HashMap<>();
         try{
             request.setAttribute("messages", messages);
-            messages.put("success", "Download started");
-
+/*
+            OracleManagerFactory factory = new OracleManagerFactory();
+            Manager manager = factory.getManager(request.getParameter("table"));
+            TableRecord[] selectedArr = manager.readAll();
+            Entities entity = new Entities(selectedArr);
+            XmlParser xmlParser = new XmlParser();
+            File file = xmlParser.marshal(entity);*/
 
             OracleManagerFactory factory = new OracleManagerFactory();
             Manager manager = factory.getManager(request.getParameter("table"));

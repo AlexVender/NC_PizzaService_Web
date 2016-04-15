@@ -1,5 +1,4 @@
 <%@ page import="java.util.Objects" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 
@@ -23,3 +22,5 @@
     <span class="success">${messages.success}</span>
   </p>
 </form><br><br>
+
+<%@ include file="jspf/footer.jspf" %>
