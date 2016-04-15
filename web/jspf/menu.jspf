@@ -1,7 +1,6 @@
-<a href="index.jsp">Index</a><br>
+<%--<a href="index.jsp">Index</a><br>--%>
 <a href="create.jsp">Create</a><br>
-<a href="read.jsp">Get by ID</a><br>
-<a href="getall.jsp">Get all</a><br>
+<a href="get.jsp">Read</a><br>
 <a href="update.jsp">Update</a><br>
 <a href="delete.jsp">Delete</a><br>
 <br>
